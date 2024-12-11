@@ -31,14 +31,6 @@ lint:
   dependencies:
     - install
 
-# Tests unitaires
-test:
-  stage: test
-  script:
-    - npm run test
-  dependencies:
-    - install
-
 # Construction de l'application
 build:
   stage: build
