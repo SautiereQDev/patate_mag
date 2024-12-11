@@ -1,17 +1,45 @@
+image: node:23.4-alpine3.20
+
 stages:
   - install
-  - build
+  - lint
   - test
+  - build
+  - deploy
 
-install_dependencies:
+# Cache des dépendances npm entre les jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+# Installation des dépendances
+install:
   stage: install
   script:
     - npm ci
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
+  artifacts:
     paths:
       - node_modules/
+    expire_in: 1 hour
 
+# Lint du code
+lint:
+  stage: lint
+  script:
+    - npm run lint
+  dependencies:
+    - install
+
+# Tests unitaires
+test:
+  stage: test
+  script:
+    - npm run test
+  dependencies:
+    - install
+
+# Construction de l'application
 build:
   stage: build
   script:
@@ -19,16 +47,22 @@ build:
   artifacts:
     paths:
       - dist/
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - node_modules/
+    expire_in: 1 week
+  dependencies:
+    - install
+    - lint
+    - test
 
-test:
-  stage: test
+# Déploiement sur pages GitLab (optionnel)
+pages:
+  stage: deploy
   script:
-    - npm run test
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
+    - mkdir -p public
+    - cp -r dist/* public/
+  artifacts:
     paths:
-      - node_modules/
+      - public
+  only:
+    - main
+  dependencies:
+    - build
