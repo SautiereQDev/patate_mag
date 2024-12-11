@@ -1,6 +1,8 @@
 # Patate mag   
 
 [![Latest Release](https://gitlab.univ-lr.fr/qsautier/patate-mag/-/badges/release.svg)](https://gitlab.univ-lr.fr/qsautier/patate-mag/-/releases)
+![License Badge](https://img.shields.io/badge/license-GPL--3.0-green.svg)
+
 
 ![Logo de patate-mag](public/patate.avif)
 
