@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import ArticlePage from './pages/ArticlePage';
+import { HomePage, ArticlePage, CreateArticle } from './pages';
 
 function App() {
   return (
@@ -11,10 +10,13 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/article/:id" element={<ArticlePage />} />
+          <Route path="/new_article" element={<CreateArticle />} />
         </Routes>
       </div>
     </Router>
   );
+  //TODO: Possiblité de modifier la recette
+  //TODO: Possiblité de supprimer la recette
 }
 
 export default App;

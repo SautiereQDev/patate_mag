@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { articles } from '../data/articles';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 
-const ArticlePage: React.FC = () => {
+export const ArticlePage: React.FC = () => {
   const { id } = useParams();
   const article = articles.find(a => a.id === Number(id));
 

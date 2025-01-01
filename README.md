@@ -1,6 +1,5 @@
-# Patate mag   
+# Patate mag
 
-[![Latest Release](https://gitlab.univ-lr.fr/qsautier/patate-mag/-/badges/release.svg)](https://gitlab.univ-lr.fr/qsautier/patate-mag/-/releases)
 ![License Badge](https://img.shields.io/badge/license-GPL--3.0-green.svg)
 
 
@@ -14,6 +13,8 @@ Ce site web est un projet universitaire dans le cadre du reper de l’Universit�
 présenter
 un magazine fictif sur les pommes de terre.
 Le site est responsive et est composé de 2 pages, la homepage et les pages d’articles détaillés.
+
+Les données sont stockées dans un fichier typescript car cela m'évite d'avoir à mettre en place une base de données sur un serveur payant.
 
 ## Stack technique
 
