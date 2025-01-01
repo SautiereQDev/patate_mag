@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link, redirect, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { articles } from '../data/articles';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 
 export const ArticlePage: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const article = articles.find((a) => a.id === Number(id));
 
   if (!article) {
@@ -20,7 +22,7 @@ export const ArticlePage: React.FC = () => {
 
   const deleteArticle = () => {
     articles.splice(articles.indexOf(article), 1);
-    redirect('/');
+    navigate('/');
   };
 
   return (

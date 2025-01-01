@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArticleForm } from '../types/Article.ts';
 import { articles } from '../data/articles.ts';
-import { redirect, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 const articleSchema = z.object({
@@ -17,6 +17,8 @@ export function CreateArticle({
   modify = false,
 }: Readonly<{ modify?: boolean }>) {
   const { recipeId } = useParams();
+  const navigate = useNavigate();
+
   const articleToEdit = modify
     ? articles.find((article) => article.id === Number(recipeId))
     : null;
@@ -59,7 +61,7 @@ export function CreateArticle({
       alert('Article ajouté avec succès !');
     }
 
-    redirect('/');
+    navigate('/');
   };
 
   return (
