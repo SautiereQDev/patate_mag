@@ -1,10 +1,10 @@
 import { Controller, useForm } from 'react-hook-form';
-// import { z } from 'zod';
-// import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArticleForm } from '../types/Article.ts';
 import { articles } from '../data/articles.ts';
 import { redirect } from 'react-router-dom';
-// import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';
 
 const articleSchema = z.object({
   title: z.string().min(3, 'Le titre est requis'),
@@ -26,16 +26,16 @@ export function CreateArticle() {
 
   const onSubmit = (data: ArticleForm) => {
     // Assainir les données
-    // const sanitizedData = {
-    //   title: DOMPurify.sanitize(data.title),
-    //   excerpt: DOMPurify.sanitize(data.excerpt),
-    //   content: DOMPurify.sanitize(data.content),
-    //   image: DOMPurify.sanitize(data.image),
-    // };
+    const sanitizedData = {
+      title: DOMPurify.sanitize(data.title),
+      excerpt: DOMPurify.sanitize(data.excerpt),
+      content: DOMPurify.sanitize(data.content),
+      image: DOMPurify.sanitize(data.image),
+    };
 
     articles.push({
       id: articles.length + 1,
-      // ...sanitizedData,
+      ...sanitizedData,
       author: 'John Doe', // On part du principe que l'utilisateur est connecté sous ce nom
       date: new Date().toISOString().split('T')[0],
     });
