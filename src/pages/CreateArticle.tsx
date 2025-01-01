@@ -14,7 +14,11 @@ const articleSchema = z.object({
 });
 
 export function CreateArticle() {
-  const { control, handleSubmit } = useForm<ArticleForm>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ArticleForm>({
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: '',
@@ -48,55 +52,83 @@ export function CreateArticle() {
       <h1 className="text-4xl font-bold text-center">
         Ajouter un nouvel article
       </h1>
-      <form className="mt-8">
-        <Controller
-          render={({ field }) => (
-            <input
-              {...field}
-              type="text"
-              placeholder="Titre"
-              className="border p-2 my-3 w-1/3 mx-auto block rounded-lg"
-            />
-          )}
-          name="title"
-          control={control}
-        />
-        <Controller
-          render={({ field }) => (
-            <textarea
-              {...field}
-              placeholder="Extrait"
-              className="border p-2 my-3 w-1/3 mx-auto block rounded-lg"
-            />
-          )}
-          name="excerpt"
-          control={control}
-        />
-        <Controller
-          render={({ field }) => (
-            <textarea
-              {...field}
-              placeholder="Contenu"
-              className="border p-2 my-3 w-1/3 mx-auto block rounded-lg"
-            />
-          )}
-          name="content"
-          control={control}
-        />
-        <Controller
-          render={({ field }) => (
-            <input
-              {...field}
-              type="text"
-              placeholder="URL de l'image"
-              className="border p-2 my-3 w-1/3 mx-auto block rounded-lg"
-            />
-          )}
-          name="image"
-          control={control}
-        />
+      <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+        <div className="w-1/3 mx-auto">
+          <Controller
+            render={({ field }) => (
+              <>
+                <input
+                  {...field}
+                  type="text"
+                  placeholder="Titre"
+                  className="border p-2 my-3 block w-full rounded-lg"
+                />
+                {errors.title && (
+                  <p className="text-red-500">{errors.title.message}</p>
+                )}
+              </>
+            )}
+            name="title"
+            control={control}
+          />
+        </div>
+        <div className="w-1/3 mx-auto">
+          <Controller
+            render={({ field }) => (
+              <>
+                <textarea
+                  {...field}
+                  placeholder="Extrait"
+                  className="border p-2 my-3 block w-full rounded-lg"
+                />
+                {errors.excerpt && (
+                  <p className="text-red-500">{errors.excerpt.message}</p>
+                )}
+              </>
+            )}
+            name="excerpt"
+            control={control}
+          />
+        </div>
+        <div className="w-1/3 mx-auto">
+          <Controller
+            render={({ field }) => (
+              <>
+                <textarea
+                  {...field}
+                  placeholder="Contenu"
+                  className="border p-2 my-3 block w-full rounded-lg"
+                />
+                {errors.content && (
+                  <p className="text-red-500">{errors.content.message}</p>
+                )}
+              </>
+            )}
+            name="content"
+            control={control}
+          />
+        </div>
+        <div className="w-1/3 mx-auto">
+          <Controller
+            render={({ field }) => (
+              <>
+                <input
+                  {...field}
+                  type="text"
+                  placeholder="URL de l'image"
+                  className="border p-2 my-3 block w-full rounded-lg"
+                />
+                {errors.image && (
+                  <p className="text-red-500">{errors.image.message}</p>
+                )}
+              </>
+            )}
+            name="image"
+            control={control}
+          />
+        </div>
         <button
-          onClick={handleSubmit(onSubmit)}
+          type="submit"
           className="bg-amber-600 text-white px-6 py-2 mt-4 block mx-auto rounded-lg"
         >
           Ajouter
