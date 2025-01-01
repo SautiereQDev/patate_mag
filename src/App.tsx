@@ -15,13 +15,11 @@ function App() {
             element={<CreateArticle modify={true} />}
           />
           <Route path="/new_article" element={<CreateArticle />} />
-          <Route path="*" element={<ErrorPage/>} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </div>
     </Router>
   );
-  //TODO: Possiblité de modifier la recette
-  //TODO: Possiblité de supprimer la recette
 }
 
 export default App;
