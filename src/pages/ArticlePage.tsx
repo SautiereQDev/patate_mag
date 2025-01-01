@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, redirect, useParams } from 'react-router-dom';
 import { articles } from '../data/articles';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 
 export const ArticlePage: React.FC = () => {
   const { id } = useParams();
-  const article = articles.find(a => a.id === Number(id));
+  const article = articles.find((a) => a.id === Number(id));
 
   if (!article) {
     return (
@@ -18,12 +18,36 @@ export const ArticlePage: React.FC = () => {
     );
   }
 
+  const deleteArticle = () => {
+    articles.splice(articles.indexOf(article), 1);
+    redirect('/');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <Link to="/" className="inline-flex items-center text-amber-600 hover:text-amber-700 mb-6">
-        <ArrowLeft size={20} className="mr-2" />
-        Retour aux articles
-      </Link>
+      <div className="flex flex-row justify-between">
+        <Link
+          to="/"
+          className="inline-flex items-center text-amber-600 hover:text-amber-700 mb-6"
+        >
+          <ArrowLeft size={20} className="mr-2" />
+          Retour aux articles
+        </Link>
+        <div className="flex items-center space-x-2 mb-3">
+          <Link
+            to={`/edit_article/${article.id}`}
+            className="px-3 py-1 border rounded-md flex items-center justify-center"
+          >
+            Modifier
+          </Link>
+          <button
+            className="px-3 py-1 border rounded-md flex items-center justify-center"
+            onClick={deleteArticle}
+          >
+            Supprimer
+          </button>
+        </div>
+      </div>
 
       <article className="bg-white rounded-lg shadow-lg overflow-hidden">
         <img
@@ -42,9 +66,7 @@ export const ArticlePage: React.FC = () => {
           </div>
 
           <div className="prose max-w-none">
-            <p className="text-gray-700 leading-relaxed">
-              {article.content}
-            </p>
+            <p className="text-gray-700 leading-relaxed">{article.content}</p>
           </div>
         </div>
       </article>
