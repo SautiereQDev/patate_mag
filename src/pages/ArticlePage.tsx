@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { articles } from '../data/articles';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
+import { Article } from '../types/Article.ts';
 
 export const ArticlePage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const article = articles.find((a) => a.id === Number(id));
+  const [article, setArticle] = useState<Article>({
+    title: '',
+    excerpt: '',
+    content: '',
+    image: '',
+    author: 'Quentin Sautière',
+  });
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/${id}`)
+      .then((response) => response.json())
+      .then((data) => setArticle(data))
+      .catch((error) => console.error('Error:', error));
+  }, []);
 
   if (!article) {
     return (
@@ -38,7 +52,7 @@ export const ArticlePage: React.FC = () => {
         </Link>
         <div className="flex items-center space-x-2 mb-3">
           <Link
-            to={`/edit_article/${article.id}`}
+            to={`/edit_article/${article._id}`}
             className="px-3 py-1 border rounded-md flex items-center justify-center"
           >
             Modifier
@@ -65,7 +79,7 @@ export const ArticlePage: React.FC = () => {
             <User size={18} className="mr-1" />
             <span className="mr-4">{article.author}</span>
             <Calendar size={18} className="mr-1" />
-            <span>{article.date}</span>
+            <span>{article.createdAt}</span>
           </div>
 
           <div className="prose max-w-none">
