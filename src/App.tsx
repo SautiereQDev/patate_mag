@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import { HomePage, ArticlePage, CreateArticle } from './pages';
+import { HomePage, ArticlePage, CreateArticle, ErrorPage } from './pages';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
             element={<CreateArticle modify={true} />}
           />
           <Route path="/new_article" element={<CreateArticle />} />
+          <Route path="*" element={<ErrorPage/>} />
         </Routes>
       </div>
     </Router>
