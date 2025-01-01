@@ -22,6 +22,7 @@ export const ArticlePage: React.FC = () => {
 
   const deleteArticle = () => {
     articles.splice(articles.indexOf(article), 1);
+    alert('Article supprimé avec succès !');
     navigate('/');
   };
 

@@ -46,10 +46,16 @@ export function CreateArticle({
       image: DOMPurify.sanitize(data.image),
     };
 
+    if(modify && !articleToEdit) {
+      alert('Article non trouvé');
+      navigate('/');
+    }
+
     if (modify && articleToEdit) {
       // Update existing article
       Object.assign(articleToEdit, sanitizedData);
       alert('Article modifié avec succès !');
+      navigate('/');
     } else {
       // Add new article
       articles.push({
@@ -59,6 +65,7 @@ export function CreateArticle({
         date: new Date().toISOString().split('T')[0],
       });
       alert('Article ajouté avec succès !');
+      navigate('/');
     }
 
     navigate('/');
