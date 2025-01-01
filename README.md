@@ -21,6 +21,8 @@ Les données sont stockées dans un fichier typescript car cela m'évite d'avoir
 - **Front-end** : React.js
 - **Database** : Données statiques stockées dans un fichier typescript
 - **Mise en forme**: Tailwind CSS
+- **Utilitaires**: [dompurify](https://www.npmjs.com/package/dompurify), [zod](https://www.npmjs.com/package/zod), [react-hook-form](https://www.npmjs.com/package/react-hook-form)
+- **Déploiement**: Vercel
 
 ## Installation
 
