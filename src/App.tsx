@@ -10,6 +10,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/article/:id" element={<ArticlePage />} />
+          <Route
+            path="/edit_article/:recipeId"
+            element={<CreateArticle modify={true} />}
+          />
           <Route path="/new_article" element={<CreateArticle />} />
         </Routes>
       </div>
