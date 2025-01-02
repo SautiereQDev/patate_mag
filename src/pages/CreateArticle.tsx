@@ -1,10 +1,10 @@
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArticleForm } from '../types/Article.ts';
-import { articles } from '../data/articles.ts';
+import { ArticleForm } from '../types/Article';
 import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
+import { useEffect } from 'react';
 
 const articleSchema = z.object({
   title: z.string().min(3, 'Le titre est requis'),
@@ -13,32 +13,31 @@ const articleSchema = z.object({
   image: z.string().url("L'URL de l'image doit être valide"),
 });
 
-export function CreateArticle({
-  modify = false,
-}: Readonly<{ modify?: boolean }>) {
+export function CreateArticle({ modify = false }: { modify?: boolean }) {
   const { recipeId } = useParams();
   const navigate = useNavigate();
-
-  const articleToEdit = modify
-    ? articles.find((article) => article.id === Number(recipeId))
-    : null;
 
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ArticleForm>({
     resolver: zodResolver(articleSchema),
-    defaultValues: articleToEdit || {
-      title: '',
-      excerpt: '',
-      content: '',
-      image: '',
-    },
   });
 
+  useEffect(() => {
+    if (modify && recipeId) {
+      fetch(`http://localhost:5000/api/articles/${recipeId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          reset(data);
+        })
+        .catch((error) => console.error('Error:', error));
+    }
+  }, [modify, recipeId, reset]);
+
   const onSubmit = (data: ArticleForm) => {
-    // Assainir les données
     const sanitizedData = {
       title: DOMPurify.sanitize(data.title),
       excerpt: DOMPurify.sanitize(data.excerpt),
@@ -46,29 +45,27 @@ export function CreateArticle({
       image: DOMPurify.sanitize(data.image),
     };
 
-    if(modify && !articleToEdit) {
-      alert('Article non trouvé');
-      navigate('/');
-    }
+    const requestOptions = {
+      method: modify ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sanitizedData),
+    };
 
-    if (modify && articleToEdit) {
-      // Update existing article
-      Object.assign(articleToEdit, sanitizedData);
-      alert('Article modifié avec succès !');
-      navigate('/');
-    } else {
-      // Add new article
-      articles.push({
-        id: articles.length + 1,
-        ...sanitizedData,
-        author: 'John Doe', // On part du principe que l'utilisateur est connecté sous ce nom
-        date: new Date().toISOString().split('T')[0],
-      });
-      alert('Article ajouté avec succès !');
-      navigate('/');
-    }
+    const url = modify
+      ? `http://localhost:5000/api/articles/${recipeId}`
+      : 'http://localhost:5000/api/articles';
 
-    navigate('/');
+    fetch(url, requestOptions)
+      .then((response) => response.json())
+      .then(() => {
+        alert(
+          modify
+            ? 'Article modifié avec succès !'
+            : 'Article ajouté avec succès !'
+        );
+        navigate('/');
+      })
+      .catch((error) => console.error('Error:', error));
   };
 
   return (

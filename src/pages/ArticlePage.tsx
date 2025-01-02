@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { articles } from '../data/articles';
 import { ArrowLeft, Calendar, User } from 'lucide-react';
 import { Article } from '../types/Article.ts';
 
@@ -35,9 +34,18 @@ export const ArticlePage: React.FC = () => {
   }
 
   const deleteArticle = () => {
-    articles.splice(articles.indexOf(article), 1);
-    alert('Article supprimé avec succès !');
-    navigate('/');
+    fetch(`http://localhost:5000/${id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        console.log('Article supprimé avec succès !');
+        alert('Article supprimé avec succès !');
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert("Une erreur est survenue lors de la suppression de l'article");
+      });
   };
 
   return (
@@ -65,7 +73,6 @@ export const ArticlePage: React.FC = () => {
           </button>
         </div>
       </div>
-
       <article className="bg-white rounded-lg shadow-lg overflow-hidden">
         <img
           src={article.image}
