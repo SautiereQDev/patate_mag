@@ -14,7 +14,7 @@ const articleSchema = z.object({
 });
 
 // Create a new article
-router.post('/', validateRequest(articleSchema), async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const article = new Article(req.body);
     await article.save();
