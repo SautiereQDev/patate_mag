@@ -24,12 +24,24 @@ Les données sont stockées dans un fichier typescript car cela m'évite d'avoir
 - **Utilitaires**: [dompurify](https://www.npmjs.com/package/dompurify), [zod](https://www.npmjs.com/package/zod), [react-hook-form](https://www.npmjs.com/package/react-hook-form)
 - **Déploiement**: Vercel
 
+## Prérequis : 
+- Nodejs 23.XX
+- npm
+
 ## Installation
 
 1) Cloner le projet sur votre machine: `git clone https://gitlab.univ-lr.fr/qsautier/patate-mag.git`
 2) Installer les dépendances: `npm install`
-3) Lancer le projet: `npm run dev`
+3) configurer les variables d'environement (à placer dans `server/.env`) :
+  - MONG_URI : Uri de connexion vers votre instance mongo_db (**obligatoire**)
+  - PORT: Port utilisé par le serveur backend
+
+## Lancer le projet
+- Front-end : npm run dev
+- Back-end (serveur) : cd server; npm run dev
 
 ## Auteurs
-
 [Quentin SAUTIERE](https://gitlab.univ-lr.fr/qsautier)
+
+## Road-Map 
+-  Rédiger un Dockerfile
