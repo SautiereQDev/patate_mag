@@ -16,7 +16,7 @@ export const ArticlePage: React.FC = () => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/${id}`)
+    fetch(`http://localhost:5000/api/articles/${id}`)
       .then((response) => response.json())
       .then((data) => setArticle(data))
       .catch((error) => console.error('Error:', error));
@@ -34,7 +34,7 @@ export const ArticlePage: React.FC = () => {
   }
 
   const deleteArticle = () => {
-    fetch(`http://localhost:5000/${id}`, {
+    fetch(`http://localhost:5000/api/articles/${id}`, {
       method: 'DELETE',
     })
       .then(() => {

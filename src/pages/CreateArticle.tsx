@@ -13,7 +13,7 @@ const articleSchema = z.object({
   image: z.string().url("L'URL de l'image doit être valide"),
 });
 
-export function CreateArticle({ modify = false }: { modify?: boolean }) {
+export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>) {
   const { recipeId } = useParams();
   const navigate = useNavigate();
 
@@ -43,6 +43,7 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
       excerpt: DOMPurify.sanitize(data.excerpt),
       content: DOMPurify.sanitize(data.content),
       image: DOMPurify.sanitize(data.image),
+      author: 'Quentin Sautière',
     };
 
     const requestOptions = {
@@ -56,7 +57,12 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
       : 'http://localhost:5000/api/articles';
 
     fetch(url, requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(() => {
         alert(
           modify
@@ -83,6 +89,7 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
                   type="text"
                   placeholder="Titre"
                   className="border p-2 my-3 block w-full rounded-lg"
+                  value={field.value || ''}
                 />
                 {errors.title && (
                   <p className="text-red-500">{errors.title.message}</p>
@@ -101,6 +108,7 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
                   {...field}
                   placeholder="Extrait"
                   className="border p-2 my-3 block w-full rounded-lg"
+                  value={field.value || ''}
                 />
                 {errors.excerpt && (
                   <p className="text-red-500">{errors.excerpt.message}</p>
@@ -119,6 +127,7 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
                   {...field}
                   placeholder="Contenu"
                   className="border p-2 my-3 block w-full rounded-lg"
+                  value={field.value || ''}
                 />
                 {errors.content && (
                   <p className="text-red-500">{errors.content.message}</p>
@@ -138,6 +147,7 @@ export function CreateArticle({ modify = false }: { modify?: boolean }) {
                   type="text"
                   placeholder="URL de l'image"
                   className="border p-2 my-3 block w-full rounded-lg"
+                  value={field.value || ''}
                 />
                 {errors.image && (
                   <p className="text-red-500">{errors.image.message}</p>

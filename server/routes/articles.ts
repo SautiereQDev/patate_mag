@@ -14,13 +14,14 @@ const articleSchema = z.object({
 });
 
 // Create a new article
-router.post('/', async (req, res) => {
+router.post('/', validateRequest(articleSchema), async (req, res) => {
   try {
     const article = new Article(req.body);
     await article.save();
     res.status(201).json(article);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create article' });
+    console.error('Error creating trip:', error);
+    res.status(500).json({ error: 'Failed to create trip' });
   }
 });
 

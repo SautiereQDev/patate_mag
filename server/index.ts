@@ -7,27 +7,18 @@ const app = express();
 const PORT = process.env.PORT ?? 5000;
 
 const corsOptions = {
-  origin: '*', // Replace with your frontend URL
+  origin: '*', // Allow all origins
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
 };
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cors(corsOptions));
 
-app.get('/', articleRoutes);
-
-app.get('/:id', articleRoutes);
-
-app.post('/', articleRoutes);
-
-app.put('/', articleRoutes);
-
-app.delete('/:id', articleRoutes);
+// Routes
+app.use('/api/articles', articleRoutes);
 
 // Connect to database and start server
 connectDB()
