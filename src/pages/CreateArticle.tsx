@@ -72,8 +72,6 @@ export function CreateArticle({
           method: modify ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST, PUT',
           },
           body: formData,
         })

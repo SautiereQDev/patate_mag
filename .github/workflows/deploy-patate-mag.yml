@@ -46,4 +46,3 @@ jobs:
             lcd dist
             cd /patate-mag
             put -r *
-            EOF
