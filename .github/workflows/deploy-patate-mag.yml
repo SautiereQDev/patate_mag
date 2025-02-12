@@ -26,8 +26,9 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: '${{ secrets.SFTP_SERVER }}'
-          username: '${{ secrets.SFTP_USER }}'
+          username: '${{ secrets.SFTP_USER }}',
+          protocol: 'ftps',
           key: '${{ secrets.SSH_PRIVATE_KEY }}'
-          local-dir: 'build'
+          local-dir: 'build/'
           server-dir: '/patate-mag'
           password: '${{ secrets.SFTP_PASSWORD }}'
