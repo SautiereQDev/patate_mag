@@ -1,4 +1,3 @@
-yaml
 name: Déploiement SFTP
 on:
   push:
