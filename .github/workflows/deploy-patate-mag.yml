@@ -1,5 +1,5 @@
-name: Deploy via SFTP
-
+yaml
+name: Déploiement SFTP
 on:
   push:
     branches: ['*']
@@ -9,25 +9,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Récupérer le code
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Installer Node
         uses: actions/setup-node@v3
         with:
-          node-version: latest
-      - name: Install dependencies
+          node-version: 'latest'
+
+      - name: Dépendances
         run: npm ci
 
-      - name: Build
+      - name: Construction
         run: npm run build
 
-      - name: Deploy via Rsync
-        uses: Burnett01/rsync-deployments@5.2.1
+      - name: Déploiement
+        uses: SamKirkland/FTP-Deploy-Action@4.4.0
         with:
-          switches: -avzr --delete
-          path: build/
-          remote_path: /patate-mag
-          remote_host: ${{ secrets.SFTP_SERVER }}
-          remote_user: ${{ secrets.SFTP_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          server: '${{ secrets.SFTP_SERVER }}'
+          protocol: 'sftp'
+          username: '${{ secrets.SFTP_USER }}'
+          key: '${{ secrets.SSH_PRIVATE_KEY }}'
+          local-dir: 'build'
+          server-dir: '/patate-mag'
