@@ -36,8 +36,7 @@ jobs:
           protocol: sftp
           port: 22                                   # le port SSH
           # Au choix: soit 'password' ou 'private-key' (pas les deux)
-          # password: ${{ secrets.SFTP_PASSWORD }}
-          private-key: ${{ secrets.SFTP_KEY }}
+          password: ${{ secrets.SFTP_PASSWORD }}
 
           # Dossier local à transférer (dossier du build React)
           local-dir: build
