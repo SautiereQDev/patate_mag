@@ -29,6 +29,7 @@ jobs:
           target-server: ${{ secrets.SFTP_SERVER }}
           remote-user: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
+          ssh-private-key: ${{ secrets.SFTP_PRIVATE_KEY }}
           protocol: sftp
           port: 22
           local-dir: ./build/
