@@ -23,12 +23,11 @@ jobs:
         run: npm run build
 
       - name: Déploiement
-        uses: SamKirkland/FTP-Deploy-Action@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: '${{ secrets.SFTP_SERVER }}'
           protocol: 'ftps'
-          username: '${{ secrets.SFTP_USER }}',
+          username: '${{ secrets.SFTP_USER }}'
           password: '${{ secrets.SFTP_PASSWORD }}'
-          key: '${{ secrets.SSH_PRIVATE_KEY }}'
           local-dir: 'build/'
           server-dir: '/patate-mag'
