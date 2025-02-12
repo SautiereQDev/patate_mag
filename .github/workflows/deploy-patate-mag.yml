@@ -26,7 +26,6 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: '${{ secrets.SFTP_SERVER }}'
-          protocol: 'ftp'
           username: '${{ secrets.SFTP_USER }}'
           key: '${{ secrets.SSH_PRIVATE_KEY }}'
           local-dir: 'build'
