@@ -24,13 +24,12 @@ jobs:
         run: npm run build
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        uses: SamKirkland/web-deploy@v1
         with:
-          server: ${{ secrets.SFTP_SERVER }}
-          username: ${{ secrets.SFTP_USER }}
+          target-server: ${{ secrets.SFTP_SERVER }}
+          remote-user: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASSWORD }}
+          protocol: sftp
           port: 22
-          sftp_only: true
-          local_path: './build/*'
-          remote_path: '/patate-mag'
-          delete_remote_files: true
+          local-dir: ./build/
+          remote-dir: /pat
