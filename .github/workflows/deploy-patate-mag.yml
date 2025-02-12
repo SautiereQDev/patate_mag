@@ -36,6 +36,7 @@ jobs:
       # 6. Déployer via SFTP
       - name: Déploiement via SFTP
         env:
+
           SFTP_USER: ${{ secrets.SFTP_USER }}
           SFTP_SERVER: ${{ secrets.SFTP_SERVER }}
         run: |
@@ -45,3 +46,4 @@ jobs:
             lcd dist
             cd /patate-mag
             put -r *
+            EOF
