@@ -30,4 +30,4 @@ jobs:
           username: '${{ secrets.SFTP_USER }}'
           password: '${{ secrets.SFTP_PASSWORD }}'
           local-dir: 'build/'
-          server-dir: '/patate-mag'
+          server-dir: '/patate-mag/'
