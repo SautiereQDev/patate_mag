@@ -9,7 +9,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 flex content-center justify-between">
         <Link to="/" className="flex items-center justify-center gap-3 m-auto">
           <h1 className="text-4xl font-bold text-center">Patate-Mag</h1>
-          <img src="/patate.avif" alt="Patate-Mag" className="w-14 h-14" />
+          <img src="../assets/patate.avif" alt="Patate-Mag" className="w-14 h-14" />
         </Link>
         {location.pathname !== '/new_article' && (
           <Link

@@ -6,7 +6,7 @@ export const HomePage: React.FC = () => {
   const [articles, setArticles] = useState<Article[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/articles')
+    fetch('https://api.quentinsautiere.com/patate-mag/articles')
       .then((response) => response.json())
       .then((data) => setArticles(data))
       .catch((error) => console.error('Error:', error));

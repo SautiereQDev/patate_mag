@@ -4,7 +4,7 @@ import { HomePage, ArticlePage, CreateArticle, ErrorPage } from './pages';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/patate-mag">
       <div className="min-h-screen bg-gray-100">
         <Header />
         <Routes>

@@ -28,7 +28,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
 
   useEffect(() => {
     if (modify && recipeId) {
-      fetch(`http://localhost:5000/api/articles/${recipeId}`)
+      fetch(`https://api.quentinsautiere.com/patate-mag/articles/${recipeId}`)
         .then((response) => response.json())
         .then((data) => {
           reset(data);
@@ -53,8 +53,8 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
     };
 
     const url = modify
-      ? `http://localhost:5000/api/articles/${recipeId}`
-      : 'http://localhost:5000/api/articles';
+      ? `https://api.quentinsautiere.com/patate-mag/articles/${recipeId}`
+      : 'https://api.quentinsautiere.com/patate-mag/articles';
 
     fetch(url, requestOptions)
       .then((response) => {
