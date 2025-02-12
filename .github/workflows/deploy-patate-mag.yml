@@ -23,14 +23,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy via SFTP
-        uses: SamKirkland/web-deploy@v1
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@main
         with:
-          target-server: ${{ secrets.SFTP_SERVER }}
-          remote-user: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          ssh-private-key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          protocol: sftp
-          port: 22
-          local-dir: ./build/
-          remote-dir: /pat
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SFTP_SERVER }}
+          REMOTE_USER: ${{ secrets.SFTP_USER }}
+          SOURCE: "build/"
+          TARGET: "/patate-mag/"
+          EXCLUDE: "/build/node_modules/, .git*, .env"
