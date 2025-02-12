@@ -23,7 +23,7 @@ jobs:
         run: npm run build
 
       - name: Déploiement
-        uses: SamKirkland/FTP-Deploy-Actionl@4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: '${{ secrets.SFTP_SERVER }}'
           protocol: 'sftp'
