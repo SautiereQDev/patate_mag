@@ -1,4 +1,5 @@
 name: Déploiement SFTP
+
 on:
   push:
     branches: ['*']
@@ -8,26 +9,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Récupérer le code
       - name: Récupérer le code
         uses: actions/checkout@v3
 
+      # 2. Installer Node (ici dernière version, adapter si besoin)
       - name: Installer Node
         uses: actions/setup-node@v3
         with:
           node-version: 'latest'
 
-      - name: Dépendances
+      # 3. Installer les dépendances
+      - name: Installer les dépendances
         run: npm ci
 
+      # 4. Construire l'application
       - name: Construction
         run: npm run build
 
-      - name: Déploiement
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: '${{ secrets.SFTP_SERVER }}'
-          protocol: 'ftps'
-          username: '${{ secrets.SFTP_USER }}'
-          password: '${{ secrets.SFTP_PASSWORD }}'
-          local-dir: 'dist/'
-          server-dir: '/patate-mag/'
+      # 5. Configurer la clé SFTP
+      - name: Configurer la clé SFTP
+        run: |
+          echo "${{ secrets.SFTP_PRIVATE_KEY }}" > sftp_key
+          chmod 600 sftp_key
+
+      # 6. Déployer via SFTP
+      - name: Déploiement via SFTP
+        env:
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_SERVER: ${{ secrets.SFTP_SERVER }}
+        run: |
+          # On se place dans le dossier local de build (ici "dist")
+          # La commande "put -r *" transfère tous les fichiers/répertoires récursivement
+          sftp -i sftp_key -o StrictHostKeyChecking=no $SFTP_USER@$SFTP_SERVER << 'EOF'
+            lcd dist
+            cd /patate-mag
+            put -r *
