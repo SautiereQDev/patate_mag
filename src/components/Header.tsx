@@ -1,15 +1,16 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import patateImage from '../assets/patate.avif'; 
 
 const Header: React.FC = () => {
   const location = useLocation();
 
   return (
-    <header className="bg-amber-600 text-white py-4 mb-8">
-      <div className="container mx-auto px-4 flex content-center justify-between">
+    <header className="py-4 mb-8 text-white bg-amber-600">
+      <div className="container flex content-center justify-between px-4 mx-auto">
         <Link to="/" className="flex items-center justify-center gap-3 m-auto">
           <h1 className="text-4xl font-bold text-center">Patate-Mag</h1>
-          <img src="../assets/patate.avif" alt="Patate-Mag" className="w-14 h-14" />
+          <img src={patateImage} alt="Patate-Mag" className="w-14 h-14" />
         </Link>
         {location.pathname !== '/new_article' && (
           <Link
