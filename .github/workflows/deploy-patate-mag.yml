@@ -1,0 +1,54 @@
+name: Deploy React App to patate-mag (SFTP)
+
+on:
+  push:
+    branches: *  # Toutes les branches
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Récupérer le code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # 2) Installer la version souhaitée de Node
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      # 3) Installer les dépendances
+      - name: Install dependencies
+        run: npm ci
+
+      # 4) Lancer le build React
+      - name: Build
+        run: npm run build
+
+      # 5) Déployer via SFTP
+      - name: Deploy via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.SFTP_SERVER }}         # IP ou domaine
+          username: ${{ secrets.SFTP_USER }}         # ex: 'deploy'
+          protocol: sftp
+          port: 22                                   # le port SSH
+          # Au choix: soit 'password' ou 'private-key' (pas les deux)
+          # password: ${{ secrets.SFTP_PASSWORD }}
+          private-key: ${{ secrets.SFTP_KEY }}
+
+          # Dossier local à transférer (dossier du build React)
+          local-dir: build
+
+          # Dossier distant (chroot) qui deviendra le 'server-dir'
+          server-dir: /patate-mag
+          # -> Attention : l'utilisateur sees /var/www/ comme "/",
+          #    donc /patate-mag correspond à /var/www/patate-mag sur le serveur
+
+          # (Optionnel) Pour écraser/ranger d'autres fichiers:
+          delete: true
+          exclude: |
+            .git*
+            *.md
