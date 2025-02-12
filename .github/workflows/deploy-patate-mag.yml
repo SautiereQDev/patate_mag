@@ -31,3 +31,4 @@ jobs:
           key: '${{ secrets.SSH_PRIVATE_KEY }}'
           local-dir: 'build'
           server-dir: '/patate-mag'
+          password: '${{ secrets.SFTP_PASSWORD }}'
