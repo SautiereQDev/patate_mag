@@ -2,7 +2,7 @@ name: Deploy React App to patate-mag (SFTP)
 
 on:
   push:
-    branches: *  # Toutes les branches
+    branches: ['*']  # Toutes les branches
 
 jobs:
   build-and-deploy:
