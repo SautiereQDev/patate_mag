@@ -1,0 +1,65 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: ['*']
+
+env:
+  DEPLOY_PATH: /var/www/api/patate-mag
+  NODE_VERSION: 23
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🚀 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      # - name: 🏗️ Build Project
+      #   run: |
+      #     set -e
+      #     mv src/* .
+      #     rm -rf src
+
+      # - name: 🔐 Configure SSH
+      #   run: |
+      #     set -e
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SFTP_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+      #     chmod 600 ~/.ssh/deploy_key
+      #     echo -e "Host server\n  HostName ${{ secrets.SFTP_SERVER }}\n  User ${{ secrets.SFTP_USER }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" > ~/.ssh/config
+      #     chmod 600 ~/.ssh/config
+
+      # - name: 🚀 Deploy to Production via Rsync
+      #   run: |
+      #     set -e
+      #     rsync -avz --delete --info=progress2 \
+      #       --exclude '.git' \
+      #       --exclude '.github' \
+      #       --exclude '.gitignore' \
+      #       --exclude 'README.md' \
+      #       --exclude 'LICENSE' \
+      #       --exclude 'src' \
+      #       --exclude 'tests' \
+      #       --exclude 'node_modules/.cache' \
+      #       --exclude 'dist' \
+      #       ./ \
+      #       server:${{ env.DEPLOY_PATH }}/
+
+#       - name: 🔄 Restart Application with PM2
+#         run: |
+#           set -e
+#           ssh server "cd ${{ env.DEPLOY_PATH }} && \
+#           NODE_ENV=production pm2 reload all && \
+#           pm2 save"

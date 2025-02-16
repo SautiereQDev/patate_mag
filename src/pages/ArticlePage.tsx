@@ -11,7 +11,7 @@ export const ArticlePage: React.FC = () => {
 		title: '',
 		excerpt: '',
 		content: '',
-		image: '',
+		imageUrl: '',
 		author: 'Quentin Sautière',
 	});
 
@@ -36,6 +36,7 @@ export const ArticlePage: React.FC = () => {
 	const deleteArticle = () => {
 		fetch(`https://api.quentinsautiere.com/patate-mag/articles/${id}`, {
 			method: 'DELETE',
+      mode: 'cors' as RequestMode,
 		})
 			.then(() => {
 				console.log('Article supprimé avec succès !');
@@ -75,7 +76,7 @@ export const ArticlePage: React.FC = () => {
 			</div>
 			<article className="bg-white rounded-lg shadow-lg overflow-hidden">
 				<img
-					src={article.image}
+					src={article.imageUrl}
 					alt={article.title}
 					className="w-full h-96 object-cover"
 				/>

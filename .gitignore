@@ -26,3 +26,18 @@ dist-ssr
 
 !/server/.env
 server/.env
+node_modules
+dist/**
+logs/**
+
+.vscode
+.idea
+.fleet
+
+.env
+.env.**!/.env.example
+
+/.env.production
+
+# compiled files
+/src/**/*.js
