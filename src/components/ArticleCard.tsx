@@ -12,7 +12,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
     <Link to={`/article/${article._id}`}>
       <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 h-96">
         <img
-          src={article.image}
+          src={article.imageUrl}
           alt={article.title}
           className="w-full h-48 object-cover"
         />

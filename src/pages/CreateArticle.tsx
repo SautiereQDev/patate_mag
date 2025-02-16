@@ -48,6 +48,7 @@ export function CreateArticle({
 
     const requestOptions = {
       method: modify ? 'PUT' : 'POST',
+      mode: 'cors' as RequestMode,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sanitizedData),
     };
@@ -67,8 +68,9 @@ export function CreateArticle({
         formData.append('image', data.image[0]);
         const imageUrl = modify
           ? `https://api.quentinsautiere.com/patate-mag/images/${recipeId}`
-          : 'https://api.quentinsautiere.com/patate-mag/images';
+          : 'https://api.quentinsautiere.com/patate-mag/images/upload';
         fetch(imageUrl, {
+          mode: 'cors' as RequestMode,
           method: modify ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'multipart/form-data',

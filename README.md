@@ -5,7 +5,9 @@
 
 ![Logo de patate-mag](public/patate.avif)
 
-Lien vers la démonstration: [https://patate-mag.netlify.app/](https://patate-mag.netlify.app/)
+Lien vers la démonstration: [https://quentinsautiere.com/patate-mag](https://quentinsautiere.com/patate-mag)
+
+# Front-end
 
 ## Description
 
@@ -45,3 +47,5 @@ Les données sont stockées dans un fichier typescript car cela m'évite d'avoir
 
 ## Road-Map 
 -  Rédiger un Dockerfile
+
+# Backend

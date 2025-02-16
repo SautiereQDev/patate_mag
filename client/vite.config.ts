@@ -5,4 +5,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: '/patate-mag',
+  build: {
+    manifest: true,
+    sourcemap: true,
+    emptyOutDir: true,
+  },
+  publicDir: 'public',
 });
