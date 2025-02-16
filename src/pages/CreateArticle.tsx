@@ -10,10 +10,11 @@ const articleSchema = z.object({
   title: z.string().min(3, 'Le titre est requis'),
   excerpt: z.string().min(3, "L'extrait est requis"),
   content: z.string().min(3, 'Le contenu est requis'),
-  image: z.string().url("L'URL de l'image doit être valide"),
 });
 
-export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>) {
+export function CreateArticle({
+  modify = false,
+}: Readonly<{ modify?: boolean }>) {
   const { recipeId } = useParams();
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
 
   useEffect(() => {
     if (modify && recipeId) {
-      fetch(`http://localhost:5000/api/articles/${recipeId}`)
+      fetch(`https://api.quentinsautiere.com/patate-mag/articles/${recipeId}`)
         .then((response) => response.json())
         .then((data) => {
           reset(data);
@@ -42,7 +43,6 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
       title: DOMPurify.sanitize(data.title),
       excerpt: DOMPurify.sanitize(data.excerpt),
       content: DOMPurify.sanitize(data.content),
-      image: DOMPurify.sanitize(data.image),
       author: 'Quentin Sautière',
     };
 
@@ -53,25 +53,48 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
     };
 
     const url = modify
-      ? `http://localhost:5000/api/articles/${recipeId}`
-      : 'http://localhost:5000/api/articles';
+      ? `https://api.quentinsautiere.com/patate-mag/articles/${recipeId}`
+      : 'https://api.quentinsautiere.com/patate-mag/articles';
 
     fetch(url, requestOptions)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('The article creation has failed');
         }
-        return response.json();
       })
       .then(() => {
-        alert(
-          modify
-            ? 'Article modifié avec succès !'
-            : 'Article ajouté avec succès !'
-        );
-        navigate('/');
+        const formData: FormData = new FormData();
+        formData.append('image', data.image[0]);
+        const imageUrl = modify
+          ? `https://api.quentinsautiere.com/patate-mag/images/${recipeId}`
+          : 'https://api.quentinsautiere.com/patate-mag/images';
+        fetch(imageUrl, {
+          method: modify ? 'PUT' : 'POST',
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('The image upload has failed');
+            }
+            alert(
+              modify
+                ? 'Article modifié avec succès !'
+                : 'Article ajouté avec succès !'
+            );
+            navigate('/');
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            alert("Une erreur est survenue lors de la création de l'article");
+          });
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        console.error('Error:', error);
+        alert("Une erreur est survenue lors de la création de l'article");
+      });
   };
 
   return (
@@ -88,7 +111,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
                   {...field}
                   type="text"
                   placeholder="Titre"
-                  className="border p-2 my-3 block w-full rounded-lg"
+                  className="block w-full p-2 my-3 border rounded-lg"
                   value={field.value || ''}
                 />
                 {errors.title && (
@@ -107,7 +130,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
                 <textarea
                   {...field}
                   placeholder="Extrait"
-                  className="border p-2 my-3 block w-full rounded-lg"
+                  className="block w-full p-2 my-3 border rounded-lg"
                   value={field.value || ''}
                 />
                 {errors.excerpt && (
@@ -126,7 +149,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
                 <textarea
                   {...field}
                   placeholder="Contenu"
-                  className="border p-2 my-3 block w-full rounded-lg"
+                  className="block w-full p-2 my-3 border rounded-lg"
                   value={field.value || ''}
                 />
                 {errors.content && (
@@ -142,13 +165,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
           <Controller
             render={({ field }) => (
               <>
-                <input
-                  {...field}
-                  type="text"
-                  placeholder="URL de l'image"
-                  className="border p-2 my-3 block w-full rounded-lg"
-                  value={field.value || ''}
-                />
+                <input type="file" {...field} accept={'image/*'} required />
                 {errors.image && (
                   <p className="text-red-500">{errors.image.message}</p>
                 )}
@@ -160,7 +177,7 @@ export function CreateArticle({ modify = false }: Readonly<{ modify?: boolean }>
         </div>
         <button
           type="submit"
-          className="bg-amber-600 text-white px-6 py-2 mt-4 block mx-auto rounded-lg"
+          className="block px-6 py-2 mx-auto mt-4 text-white rounded-lg bg-amber-600"
         >
           {modify ? 'Modifier' : 'Ajouter'}
         </button>
