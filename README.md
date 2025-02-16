@@ -3,7 +3,7 @@
 ![License Badge](https://img.shields.io/badge/license-GPL--3.0-green.svg)
 
 
-![Logo de patate-mag](public/patate.avif)
+![Logo de patate-mag](client/public/patate.avif)
 
 Lien vers la démonstration: [https://quentinsautiere.com/patate-mag](https://quentinsautiere.com/patate-mag)
 
