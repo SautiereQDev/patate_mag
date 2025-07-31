@@ -1,7 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArticleForm } from '../types/Article';
+import { ArticleForm } from '../types/Article.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 import { useEffect } from 'react';
@@ -48,7 +48,6 @@ export function CreateArticle({
 
     const requestOptions = {
       method: modify ? 'PUT' : 'POST',
-      mode: 'cors' as RequestMode,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sanitizedData),
     };
@@ -70,7 +69,6 @@ export function CreateArticle({
           ? `https://api.quentinsautiere.com/patate-mag/images/${recipeId}`
           : 'https://api.quentinsautiere.com/patate-mag/images/upload';
         fetch(imageUrl, {
-          mode: 'cors' as RequestMode,
           method: modify ? 'PUT' : 'POST',
           headers: {
             'Content-Type': 'multipart/form-data',

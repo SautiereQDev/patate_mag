@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article } from '../types/Article';
+import { Article } from '../types/Article.ts';
 import { Calendar, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

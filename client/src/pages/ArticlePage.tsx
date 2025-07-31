@@ -36,7 +36,6 @@ export const ArticlePage: React.FC = () => {
 	const deleteArticle = () => {
 		fetch(`https://api.quentinsautiere.com/patate-mag/articles/${id}`, {
 			method: 'DELETE',
-      mode: 'cors' as RequestMode,
 		})
 			.then(() => {
 				console.log('Article supprimé avec succès !');

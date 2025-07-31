@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ArticleCard from '../components/ArticleCard';
+import ArticleCard from '../components/ArticleCard.tsx';
 import { Article } from '../types/Article.ts';
 
 export const HomePage: React.FC = () => {

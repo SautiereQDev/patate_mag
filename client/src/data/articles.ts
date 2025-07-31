@@ -1,4 +1,4 @@
-import { Article } from '../types/Article';
+import { Article } from '../types/Article.ts';
 
 export const articles: Article[] = [
   {
